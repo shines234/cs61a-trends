@@ -139,15 +139,28 @@ def make_sentiment(value):
     """
     assert value is None or (value >= -1 and value <= 1), 'Illegal value'
     "*** YOUR CODE HERE ***"
+    return value
+    
 
 def has_sentiment(s):
     """Return whether sentiment s has a value."""
     "*** YOUR CODE HERE ***"
+    #if s['sentiment'] == None:
+    #    return False
+    #else:
+    #    return True
+
+    if s == None:
+        return False
+    else:
+        return True
 
 def sentiment_value(s):
     """Return the value of a sentiment s."""
     assert has_sentiment(s), 'No sentiment value'
     "*** YOUR CODE HERE ***"
+    #return s['sentiment']
+    return s
 
 def get_word_sentiment(word):
     """Return a sentiment representing the degree of positive or negative
@@ -186,7 +199,17 @@ def analyze_tweet_sentiment(tweet):
     # You may change any of the lines below.
     average = make_sentiment(None)
     "*** YOUR CODE HERE ***"
-    return average
+    sum = 0
+    words = tweet_words(tweet)
+    word_sent = [sentiment_value(get_word_sentiment(word)) for word in words if has_sentiment(get_word_sentiment(word))]
+    for sent in word_sent:
+        sum+= sent
+    if sum == 0:
+        return make_sentiment(None)
+    else:
+        return make_sentiment(sum/len(word_sent))
+
+
 
 
 #################################
