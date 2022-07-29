@@ -6,6 +6,7 @@ from geo import us_states, geo_distance, make_position, longitude, latitude
 from maps import draw_state, draw_name, draw_dot, wait
 from string import ascii_letters
 from ucb import main, trace, interact, log_current_line
+import re
 
 
 ###################################
@@ -38,14 +39,17 @@ def make_tweet(text, time, lat, lon):
 def tweet_text(tweet):
     """Return a string, the words in the text of a tweet."""
     "*** YOUR CODE HERE ***"
+    return tweet['text']
 
 def tweet_time(tweet):
     """Return the datetime representing when a tweet was posted."""
     "*** YOUR CODE HERE ***"
+    return tweet['time']
 
 def tweet_location(tweet):
     """Return a position representing a tweet's location."""
     "*** YOUR CODE HERE ***"
+    return make_position(tweet['latitude'],tweet['longitude'])
 
 # The tweet abstract data type, implemented as a function.
 
@@ -62,6 +66,18 @@ def make_tweet_fn(text, time, lat, lon):
     """
     "*** YOUR CODE HERE ***"
     # Please don't call make_tweet in your solution
+    def tweet_fn(message):
+        if message == 'text':
+            return text
+        elif message == 'time':
+            return time
+        elif message == 'lat':
+            return lat
+        elif message == 'lon':
+            return lon
+    return tweet_fn
+   
+    
 
 def tweet_text_fn(tweet):
     """Return a string, the words in the text of a functional tweet."""
@@ -102,7 +118,7 @@ def extract_words(text):
     ['cat', 'on', 'my', 'keyboard']
     """
     "*** YOUR CODE HERE ***"
-    return text.split()  # Replace this line
+    return " ".join(re.findall("[a-zA-Z]+", text)).split()  
 
 def make_sentiment(value):
     """Return a sentiment, which represents a value that may not exist.
