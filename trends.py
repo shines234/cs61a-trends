@@ -280,7 +280,15 @@ def find_state_center(polygons):
     -156.21763
     """
     "*** YOUR CODE HERE ***"
-
+    cxa,cya,sumarea = 0,0,0
+    for polygon in polygons:
+        cx,cy,area = find_centroid(polygon)
+        cxa += area * cx
+        cya += area * cy
+        sumarea += area
+    cxa = cxa / sumarea
+    cya = cya / sumarea
+    return make_position(cxa,cya)
 
 ###################################
 # Phase 3: The Mood of the Nation #
