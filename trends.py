@@ -313,9 +313,30 @@ def group_tweets_by_state(tweets):
     >>> tweet_string(california_tweets[0])
     '"welcome to san francisco" @ (38, -122)'
     """
-    tweets_by_state = {}
     "*** YOUR CODE HERE ***"
+    tweets_by_state = {}
+    state_centroids = {}
+    for state in us_states.keys():
+        state_centroids[state] = find_state_center(us_states[state])
+    for tweet in tweets:
+        loc = tweet_location(tweet)
+        close_state =closest_state(state_centroids,loc)
+        tweets_by_state[tweet_time(tweet)] = close_state
     return tweets_by_state
+    
+def closest_state(state_centroids,tweet_location):
+    states = state_centroids.keys()
+    closest = list(states)[0]
+    min_dist = distance(state_centroids[closest],tweet_location)
+    for state in states:
+        if distance(state_centroids[state],tweet_location) < min_dist:
+            min_dist = distance(state_centroids[state],tweet_location)
+            closest = state
+    return closest
+
+def distance(state,tweet_location):
+    dist = ((latitude(state)-latitude(tweet_location))**2 + (longitude(state)-longitude(tweet_location))**2)**0.5
+    return dist
 
 def average_sentiments(tweets_by_state):
     """Calculate the average sentiment of the states by averaging over all
